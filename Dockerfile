@@ -124,10 +124,6 @@ RUN conda install --quiet --yes \
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
 
-# Add local files as late as possible to avoid cache busting
-COPY /home/jovyan/.jupyter/jupyter_notebook_config.py /etc/jupyter/
-RUN fix-permissions /etc/jupyter/
-
 # Install Python 3 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
