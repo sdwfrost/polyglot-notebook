@@ -125,7 +125,7 @@ RUN conda install --quiet --yes \
 ENTRYPOINT ["tini", "-g", "--"]
 
 # Add local files as late as possible to avoid cache busting
-COPY jupyter_notebook_config.py /etc/jupyter/
+COPY /home/jovyan/.jupyter/jupyter_notebook_config.py /etc/jupyter/
 RUN fix-permissions /etc/jupyter/
 
 # Install Python 3 packages
