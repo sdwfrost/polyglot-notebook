@@ -6,10 +6,6 @@ USER root
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Add PPAs
-
-RUN add-apt-repository -yq ppa:octave/stable
-
 RUN apt-get update && && apt-get -yq dist-upgrade\
     apt-get install -yq --no-install-recommends \
     wget \
@@ -28,17 +24,15 @@ RUN apt-get update && && apt-get -yq dist-upgrade\
     gzip \
     inkscape \
     jed \
-    liboctave-dev \
     libsm6 \
     libxext-dev \
     libxrender1 \
     lmodern \
     nano \
     netcat \
-    octave \
     pandoc \
     python-dev \
-    scilab \
+    software-properties-common \
     texlive-fonts-extra \
     texlive-fonts-recommended \
     texlive-generic-recommended \
@@ -79,9 +73,8 @@ RUN groupadd wheel -g 11 && \
     fix-permissions $HOME && \
     fix-permissions $CONDA_DIR
 
-# Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER/work && \
-    fix-permissions /home/$NB_USER
+EXPOSE 8888
+WORKDIR $HOME
 
 # Install conda as jovyan and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION 4.5.4
@@ -125,9 +118,6 @@ RUN conda install --quiet --yes \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
-EXPOSE 8888
-WORKDIR $HOME
 
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
@@ -251,6 +241,8 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+USER ${NB_USER}
+
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
 # it takes roughly half the entire build time of all of the images on Travis
 # to add this one package and often causes Travis to timeout.
@@ -271,6 +263,16 @@ RUN julia -e 'Pkg.init()' && \
     chmod -R go+rx $CONDA_DIR/share/jupyter && \
     rm -rf $HOME/.local && \
     fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
+
+# Add Octave and Scilab
+USER root
+RUN add-apt-repository -yq ppa:octave/stable
+RUN apt-get install -yq --no-install-recommends \
+    liboctave-dev \
+    octave \
+    scilab \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
