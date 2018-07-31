@@ -239,8 +239,6 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-USER ${NB_USER}
-
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
 # it takes roughly half the entire build time of all of the images on Travis
 # to add this one package and often causes Travis to timeout.
@@ -263,7 +261,6 @@ RUN julia -e 'Pkg.init()' && \
     fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
 
 # Add Octave and Scilab
-USER root
 RUN add-apt-repository -yq ppa:octave/stable
 RUN apt-get install -yq --no-install-recommends \
     liboctave-dev \
