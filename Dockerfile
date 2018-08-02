@@ -261,7 +261,7 @@ RUN julia -e 'Pkg.init()' && \
     fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
 
 # Add Octave and Scilab
-RUN add-apt-repository -yq ppa:octave/stable
+RUN add-apt-repository -y ppa:octave/stable
 RUN apt-get install -yq --no-install-recommends \
     liboctave-dev \
     octave \
