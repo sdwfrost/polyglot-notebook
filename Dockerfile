@@ -262,10 +262,10 @@ RUN julia -e 'Pkg.init()' && \
 
 # Add Octave and Scilab
 # RUN add-apt-repository -y ppa:octave/stable
-RUN apt-get install -yq --no-install-recommends \
-    octave \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# RUN apt-get install -yq --no-install-recommends \
+#    octave \
+#    && apt-get clean && \
+#    rm -rf /var/lib/apt/lists/*
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
