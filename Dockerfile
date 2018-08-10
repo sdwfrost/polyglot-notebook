@@ -16,7 +16,8 @@ ENV CONDA_DIR=/opt/conda \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     JULIA_PKGDIR=/opt/julia \
-    HOME=/home/$NB_USER
+    HOME=/home/$NB_USER \
+    NIMBLE_DIR=/opt/nimble
 
 # Scilab
 ENV SCILAB_VERSION=6.0.1
@@ -37,6 +38,9 @@ RUN mkdir /opt/xppaut && \
     tar xvf xpplinux.tgz -C /opt/xppaut --strip-components=1 && \
     rm /tmp/xpplinux.tgz && \
     ln -fs /opt/xppaut/xppaut /usr/local/bin/xppaut
+
+# R packages
+RUN R -e "install.packages(c('pomp','deSolve','ddeSolve','simecol','FME','GillespieSSA'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-01')"
 
 # Add Julia packages.
 # RUN julia -e 'Pkg.update()' && \
