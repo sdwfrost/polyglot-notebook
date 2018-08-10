@@ -26,7 +26,7 @@ RUN julia -e 'Pkg.update()' && \
     rm -rf $HOME/.local && \
     fix-permissions $JULIA_PKGDIR
 
-USER ${NB_USER}
+# USER ${NB_USER}
 
 # Specify the default command to run
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
