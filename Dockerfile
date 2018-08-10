@@ -50,6 +50,8 @@ RUN R -e "install.packages(c('pomp','deSolve','ddeSolve','simecol','FME','Gilles
 #    rm -rf $HOME/.local && \
 #    fix-permissions $JULIA_PKGDIR
 
+RUN rm ${HOME}/*
+
 USER ${NB_USER}
 
 # Specify the default command to run
