@@ -17,27 +17,8 @@ ENV CONDA_DIR=/opt/conda \
     LANGUAGE=en_US.UTF-8 \
     JULIA_PKGDIR=/opt/julia \
     HOME=/home/$NB_USER \
-    NIMBLE_DIR=/opt/nimble
-
-# Scilab
-ENV SCILAB_VERSION=6.0.1
-ENV SCILAB_EXECUTABLE=/usr/local/bin/scilab-adv-cli
-RUN mkdir /opt/scilab-${SCILAB_VERSION} && \
-    cd /tmp && \
-    wget http://www.scilab.org/download/6.0.1/scilab-${SCILAB_VERSION}.bin.linux-x86_64.tar.gz && \
-    tar xvf scilab-${SCILAB_VERSION}.bin.linux-x86_64.tar.gz -C /opt/scilab-${SCILAB_VERSION} --strip-components=1 && \
-    rm /tmp/scilab-${SCILAB_VERSION}.bin.linux-x86_64.tar.gz && \
-    ln -fs /opt/scilab-${SCILAB_VERSION}/bin/scilab-adv-cli /usr/local/bin/scilab-adv-cli && \
-    ln -fs /opt/scilab-${SCILAB_VERSION}/bin/scilab-cli /usr/local/bin/scilab-cli && \
-    pip install scilab_kernel
-
-# XPP
-RUN mkdir /opt/xppaut && \
-    cd /tmp && \
-    wget http://www.math.pitt.edu/~bard/bardware/binary/latest/xpplinux.tgz && \
-    tar xvf xpplinux.tgz -C /opt/xppaut --strip-components=1 && \
-    rm /tmp/xpplinux.tgz && \
-    ln -fs /opt/xppaut/xppaut /usr/local/bin/xppaut
+    NIMBLE_DIR=/opt/nimble \
+    SCILAB_EXECUTABLE=/usr/local/bin/scilab-adv-cli
 
 # R packages
 RUN R -e "install.packages(c('pomp','deSolve','ddeSolve','simecol','FME','GillespieSSA'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-01')"
@@ -50,7 +31,9 @@ RUN R -e "install.packages(c('pomp','deSolve','ddeSolve','simecol','FME','Gilles
 #    rm -rf $HOME/.local && \
 #    fix-permissions $JULIA_PKGDIR
 
-RUN rm ${HOME}/*
+# Clean up repo
+RUN rm ${HOME}/Dockerfile
+RUN rm ${HOME}/fix-permissions
 
 USER ${NB_USER}
 
