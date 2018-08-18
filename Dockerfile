@@ -21,7 +21,8 @@ ENV CONDA_DIR=/opt/conda \
     SCILAB_EXECUTABLE=/usr/local/bin/scilab-adv-cli
 
 # R packages
-RUN R -e "install.packages(c("devtools"), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-01')"
+# RUN R -e "install.packages(c(""), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-01')"
+RUN R -e "devtools::install_github('mrc-ide/odin',upgrade = FALSE)"
 
 # Add Julia packages.
 # RUN julia -e 'Pkg.update()' && \
