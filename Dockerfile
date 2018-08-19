@@ -21,11 +21,11 @@ ENV CONDA_DIR=/opt/conda \
     SCILAB_EXECUTABLE=/usr/local/bin/scilab-adv-cli
 
 # Python
-RUN pip install papermill nteract_on_jupyter pygom
+# RUN pip install papermill nteract_on_jupyter pygom
 
 # R packages
 # RUN R -e "install.packages(c(""), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-01')"
-RUN R -e "devtools::install_github('mrc-ide/odin',upgrade = FALSE)"
+# RUN R -e "devtools::install_github('mrc-ide/odin',upgrade = FALSE)"
 
 # Add Julia packages.
 # RUN julia -e 'Pkg.update()' && \
@@ -36,12 +36,14 @@ RUN R -e "devtools::install_github('mrc-ide/odin',upgrade = FALSE)"
 #    fix-permissions $JULIA_PKGDIR
 
 # ijs
-RUN npm install -g ijavascript && \
-    ijsinstall
+# RUN npm install -g ijavascript && \
+#    ijsinstall
 
 # Clean up repo
 RUN rm ${HOME}/Dockerfile
 RUN rm ${HOME}/fix-permissions
+RUN rm ${HOME}/choosenim.sh
+RUN rm ${HOME}/README.md
 
 USER ${NB_USER}
 
