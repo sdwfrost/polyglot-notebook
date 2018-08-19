@@ -35,6 +35,10 @@ RUN R -e "devtools::install_github('mrc-ide/odin',upgrade = FALSE)"
 #    rm -rf $HOME/.local && \
 #    fix-permissions $JULIA_PKGDIR
 
+# ijs
+RUN npm install -g ijavascript && \
+    ijsinstall
+
 # Clean up repo
 RUN rm ${HOME}/Dockerfile
 RUN rm ${HOME}/fix-permissions
