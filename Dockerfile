@@ -20,6 +20,9 @@ ENV CONDA_DIR=/opt/conda \
     NIMBLE_DIR=/opt/nimble \
     SCILAB_EXECUTABLE=/usr/local/bin/scilab-adv-cli
 
+# Python
+RUN pip install papermill nteract_on_jupyter pygom
+
 # R packages
 # RUN R -e "install.packages(c(""), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-01')"
 RUN R -e "devtools::install_github('mrc-ide/odin',upgrade = FALSE)"
