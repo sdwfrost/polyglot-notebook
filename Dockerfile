@@ -53,4 +53,4 @@ RUN npm install -g \
    lib-r-math.js
 
 # Specify the default command to run
-CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
+# CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
