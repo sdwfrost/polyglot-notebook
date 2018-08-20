@@ -47,5 +47,9 @@ RUN rm ${HOME}/README.md
 
 USER ${NB_USER}
 
+# ijs
+RUN npm install -g ijavascript && \
+   ijsinstall
+
 # Specify the default command to run
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
