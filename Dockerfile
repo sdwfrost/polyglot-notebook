@@ -35,10 +35,6 @@ ENV CONDA_DIR=/opt/conda \
 #    rm -rf $HOME/.local && \
 #    fix-permissions $JULIA_PKGDIR
 
-# ijs
-# RUN npm install -g ijavascript && \
-#    ijsinstall
-
 # Clean up repo
 RUN rm ${HOME}/Dockerfile
 # RUN rm ${HOME}/fix-permissions
@@ -50,6 +46,11 @@ USER ${NB_USER}
 # ijs
 RUN npm install -g ijavascript && \
    ijsinstall
+
+RUN npm install -g \
+   plotly-notebook-js \
+   ode-rk4 \
+   lib-r-math.js
 
 # Specify the default command to run
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
