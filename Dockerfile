@@ -41,7 +41,7 @@ ENV CONDA_DIR=/opt/conda \
 
 # Clean up repo
 RUN rm ${HOME}/Dockerfile
-RUN rm ${HOME}/fix-permissions
+# RUN rm ${HOME}/fix-permissions
 RUN rm ${HOME}/choosenim.sh
 RUN rm ${HOME}/README.md
 
