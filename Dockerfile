@@ -52,5 +52,8 @@ RUN npm install -g \
    ode-rk4 \
    lib-r-math.js
 
+RUN cd ${HOME} && \
+    mkdir notebooks
+
 # Specify the default command to run
 # CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
