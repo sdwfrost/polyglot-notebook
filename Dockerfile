@@ -32,7 +32,7 @@ RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'Rcpp', \
     'rpgm', \
     'simecol', \
-    'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')" &&
+    'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')" && \
     R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
 
 # Python libraries
