@@ -4,6 +4,10 @@ LABEL maintainer="Simon Frost <sdwfrost@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+USER root
+RUN fix-permissions /usr/local/lib/python3.6/dist-packages /usr/local/lib/python3.6/site-packages
+USER jovyan
+
 # R packages
 
 RUN R -e "setRepositories(ind=1:2);install.packages(c(\
