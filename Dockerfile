@@ -4,9 +4,18 @@ LABEL maintainer="Simon Frost <sdwfrost@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-USER root
-RUN fix-permissions /usr/local/lib/python3.6/dist-packages /usr/local/lib/python3.6/site-packages
-USER jovyan
+# Configure environment
+ENV SHELL=/bin/bash \
+    NB_USER=jovyan \
+    NB_UID=1000 \
+    NB_GID=100 \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
+
+ENV HOME=/home/$NB_USER
+
+USER $NB_USER
 
 # R packages
 
