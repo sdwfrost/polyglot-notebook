@@ -48,28 +48,6 @@ RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')" && \
     R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
 
-# Python libraries
-RUN pip install \
-    cython \
-    gr \
-    ipywidgets \
-    matplotlib \
-    nteract_on_jupyter \
-    numba \
-    numexpr \
-    pandas \
-    papermill \
-    plotly \
-    scipy \
-    seaborn \
-    sympy && \
-    # Activate ipywidgets extension in the environment that runs the notebook server
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    npm cache clean --force && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    rm -rf /home/$NB_USER/.node-gyp && \
-    fix-permissions /home/$NB_USER
-
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
