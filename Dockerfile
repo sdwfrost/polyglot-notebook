@@ -17,6 +17,22 @@ ENV HOME=/home/$NB_USER
 
 USER $NB_USER
 
+# Python
+RUN pip install \
+    pygom
+
+RUN cd /tmp && \
+    git clone https://github.com/robclewley/pydstool && \
+    cd pydstool && \
+    python setup.py install && \
+    cd /tmp && \
+    rm -rf pydstool
+
+# Import matplotlib the first time to build the font cache.
+#ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
+#RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
+#    fix-permissions /home/$NB_USER
+
 # R packages
 
 RUN R -e "setRepositories(ind=1:2);install.packages(c(\
@@ -47,18 +63,6 @@ RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'simecol', \
     'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')" && \
     R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
-
-# Import matplotlib the first time to build the font cache.
-ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions /home/$NB_USER
-
-RUN cd /tmp && \
-    git clone https://github.com/robclewley/pydstool && \
-    cd pydstool && \
-    python setup.py install && \
-    cd /tmp && \
-    rm -rf pydstool
 
 # Julia packages
 RUN julia -e 'Pkg.update()' && \
