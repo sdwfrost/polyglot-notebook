@@ -19,6 +19,7 @@ USER $NB_USER
 
 # Python
 RUN pip install \
+    distutils \
     pygom
 
 RUN cd /tmp && \
