@@ -15,24 +15,17 @@ ENV SHELL=/bin/bash \
 
 ENV HOME=/home/$NB_USER
 
-USER $NB_USER
+USER root   
 
 # Python
 RUN pip install \
-    setuptools \
-    pygom
-
-RUN cd /tmp && \
-    git clone https://github.com/robclewley/pydstool && \
-    cd pydstool && \
-    python setup.py install && \
-    cd /tmp && \
-    rm -rf pydstool
-
-# Import matplotlib the first time to build the font cache.
-#ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
-#RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-#    fix-permissions /home/$NB_USER
+    EoN \
+    pydstool \
+    pygom \
+    salabim \
+    simpy \
+    tzlocal && \
+    fix-permissions /home/$NB_USER /usr/local/lib/python3.6
 
 # R packages
 
@@ -62,26 +55,29 @@ RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'Rcpp', \
     'rpgm', \
     'simecol', \
+    'simmer', \
     'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')" && \
-    R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
+    R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)" && \
+    fix-permissions /usr/local/lib/R
 
 # Julia packages
-RUN julia -e 'Pkg.update()' && \
-    julia -e 'Pkg.add("DataFrames")' && \
-    julia -e 'Pkg.add("Feather")' && \
-    julia -e 'Pkg.add("Gadfly")' && \
-    julia -e 'Pkg.add("GR")' && \
-    julia -e 'Pkg.add("Plots")' && \
-    julia -e 'Pkg.add("DifferentialEquations")' && \
-    julia -e 'Pkg.add("NamedArrays")' && \
-    julia -e 'Pkg.add("RandomNumbers")' && \
-    julia -e 'Pkg.add("Gillespie")' && \
-    julia -e 'Pkg.add("PyCall")' && \
-    julia -e 'Pkg.add("PyPlot")' && \
-    julia -e 'Pkg.add("PlotlyJS")' && \
-    julia -e 'Pkg.add("SymPy")' && \
-    # Precompile Julia packages \
-    julia -e 'using DataFrames' && \
+# Takes a long time to download, so spread over multiple commands
+RUN julia -e 'Pkg.update()'
+RUN julia -e 'Pkg.add("DataFrames")'
+RUN julia -e 'Pkg.add("Feather")'
+RUN julia -e 'Pkg.add("Gadfly")'
+RUN julia -e 'Pkg.add("GR")'
+RUN julia -e 'Pkg.add("Plots")'
+RUN julia -e 'Pkg.add("DifferentialEquations")'
+RUN julia -e 'Pkg.add("NamedArrays")'
+RUN julia -e 'Pkg.add("RandomNumbers")'
+RUN julia -e 'Pkg.add("Gillespie")'
+RUN julia -e 'Pkg.add("PyCall")'
+RUN julia -e 'Pkg.add("PyPlot")'
+RUN julia -e 'Pkg.add("RCall")'
+RUN julia -e 'Pkg.add("SymPy")'
+# Precompile Julia packages \
+RUN julia -e 'using DataFrames' && \
     julia -e 'using Feather' && \
     julia -e 'using Gadfly' && \
     julia -e 'using GR' && \
@@ -92,15 +88,19 @@ RUN julia -e 'Pkg.update()' && \
     julia -e 'using Gillespie' && \
     julia -e 'using PyCall' && \
     julia -e 'using PyPlot' && \
-    julia -e 'using PlotlyJS' && \
+    julia -e 'using RCall' && \
     julia -e 'using SymPy' && \
     rm -rf $HOME/.local && \
     fix-permissions $JULIA_PKGDIR
 
+USER $NB_USER
+
 # Javascript
 RUN npm install -g \
-    @redfish/agenscript \
+    @redfish/agentscript \
+    ode-rk4 \
     plotly-notebook-js \
-    ode-rk4
+    rmath
 
 RUN cd ${HOME}
+
