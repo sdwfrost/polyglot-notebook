@@ -94,16 +94,16 @@ RUN julia -e 'using DataFrames' && \
     fix-permissions $JULIA_PKGDIR
 
 ENV PATH=/opt/cling/cling*/bin:$PATH
-RUN cd /tmp && \
+RUN cd $HOME && \
     git clone https://github.com/QuantStack/xeus-cling && \
-    cd xeus-cling && \
-    mkdir build && \
-    cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local  -DLLVM_CONFIG=/opt/cling/cling*/bin/llvm-config .. && \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf xeus-cling && \
+    #cd xeus-cling && \
+    #mkdir build && \
+    #cd build && \
+    #cmake -DCMAKE_INSTALL_PREFIX=/usr/local  -DLLVM_CONFIG=/opt/cling/cling*/bin/llvm-config .. && \
+    #make && \
+    #make install && \
+    #cd /tmp && \
+    #rm -rf xeus-cling && \
     fix-permissions /opt/cling
 
 USER $NB_USER
